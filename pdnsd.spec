@@ -1,8 +1,9 @@
+# TODO: nobody MUST NOT own any files!
 Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl):	DNS proxy serwer dla ma³ej sieci lub jednostki z po³±czeniem dialup
 Name:		pdnsd
 Version:	1.1.7a
-Release:	5
+Release:	5.1
 License:	GPL
 Group:		Networking/Daemons
 Source0:	http://home.t-online.de/home/Moestl/%{name}-%{version}.tar.bz2
@@ -13,8 +14,8 @@ URL:		http://home.t-online.de/home/Moestl/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	flex
-PreReq:		/sbin/chkconfig
 PreReq:		rc-scripts
+Requires(post,preun):	/sbin/chkconfig
 Provides:	caching-nameserver
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	bind
@@ -51,7 +52,8 @@ rm -f missing
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/pdnsd
 mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf{.sample,}
