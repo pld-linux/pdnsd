@@ -53,10 +53,20 @@ gzip -9nf AUTHORS ChangeLog NEWS README TODO \
 rm -rf $RPM_BUILD_ROOT
                                                                                 
 %post
-%chkconfig_add
+/sbin/chkconfig --add pdnsd
+if [ -f %{_localstatedir}/lock/subsys/pdnsd ]; then
+	/etc/rc.d/init.d/pdnsd restart >&2
+else
+	echo "Run \"/etc/rc.d/init.d/pdnsd start\" to start pdnsd." >&2
+fi
 
 %preun
-%chkconfig_del
+if [ "$1" = "0" ]; then
+	if [ -f %{_localstatedir}/lock/subsys/pdnsd ]; then
+		/etc/rc.d/init.d/pdnsd stop
+	fi
+	/sbin/chkconfig --del pdnsd
+fi
 
 %files
 %defattr(644,root,root,755)
