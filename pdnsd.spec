@@ -46,7 +46,7 @@ pracujacej w trybie off-line (np. poprzez po³±czenie dialup).
 	$RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf
 
 %{__gzip} -9nf AUTHORS ChangeLog NEWS README TODO \
-	doc/html/*.html doc/txt/*.txt
+	doc/txt/*.txt
 
 %clean
 %{__rm} -rf $RPM_BUILD_ROOT
@@ -69,7 +69,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc {*,doc/{html,txt}/*}.gz
+%doc {*,doc/txt/*}.gz doc/html/*
 %attr(754,root,root) /etc/rc.d/init.d/pdnsd
 %attr(755,root,root) %{_sbindir}/pdnsd
 %attr(770,nobody,nobody) %dir %{_var}/cache/pdnsd
