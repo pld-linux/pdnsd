@@ -6,7 +6,7 @@ Version:	1.1.8b1
 Release:	0.par8.2
 License:	GPL
 Group:		Networking/Daemons
-Source0:	http://www.phys.uu.nl/~rombouts/pdnsd/%{name}-%{version}-par8.tar.gz
+Source0:	http://www.phys.uu.nl/~rombouts/pdnsd/releases/%{name}-%{version}-par8.tar.gz
 # Source0-md5:	00847e63641e241f07687387e0c2c1b4
 Source1:	%{name}.init
 Patch0:		%{name}-threads_signals.patch
@@ -16,13 +16,14 @@ URL:		http://www.phys.uu.nl/~rombouts/pdnsd.html
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	flex
+BuildRequires:	nobody-must-not-own-any-files
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Provides:	caching-nameserver
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	bind
 Obsoletes:	maradns
 Obsoletes:	maradns-zoneserver
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 pdnsd is a proxy DNS daemon with permanent (disk-)cache and the
@@ -42,7 +43,6 @@ dialup).
 %patch1 -p1
 
 %build
-rm -f missing
 rm -fr src/rc
 %{__aclocal}
 %{__autoconf}
