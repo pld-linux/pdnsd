@@ -1,7 +1,7 @@
-diff -Nur pdnsd-1.1.7a.orig/configure.in pdnsd-1.1.7a/configure.in
---- pdnsd-1.1.7a.orig/configure.in	Sun Dec 30 16:32:51 2001
-+++ pdnsd-1.1.7a/configure.in	Fri Dec  5 22:32:34 2003
-@@ -370,12 +370,5 @@
+diff -urN pdnsd-1.1.8b1.org/configure.in pdnsd-1.1.8b1/configure.in
+--- pdnsd-1.1.8b1.org/configure.in	2003-12-12 18:29:58.081177325 +0100
++++ pdnsd-1.1.8b1/configure.in	2003-12-12 18:31:14.825124282 +0100
+@@ -385,12 +385,5 @@
  src/Makefile
  src/conf-lex.l
  src/pdnsd-ctl/Makefile
@@ -14,12 +14,61 @@ diff -Nur pdnsd-1.1.7a.orig/configure.in pdnsd-1.1.7a/configure.in
 -src/rc/Debian/pdnsd
  src/test/Makefile
  ])
-diff -Nur pdnsd-1.1.7a.orig/src/Makefile.am pdnsd-1.1.7a/src/Makefile.am
---- pdnsd-1.1.7a.orig/src/Makefile.am	Wed May  9 19:51:52 2001
-+++ pdnsd-1.1.7a/src/Makefile.am	Fri Dec  5 22:14:52 2003
-@@ -11,5 +11,5 @@
+diff -urN pdnsd-1.1.8b1.org/src/Makefile.am pdnsd-1.1.8b1/src/Makefile.am
+--- pdnsd-1.1.8b1.org/src/Makefile.am	2003-12-12 18:29:58.086176280 +0100
++++ pdnsd-1.1.8b1/src/Makefile.am	2003-12-12 18:31:14.827123863 +0100
+@@ -11,7 +11,7 @@
  
  ## Try to do this last
  
 -SUBDIRS = pdnsd-ctl rc test
 +SUBDIRS = pdnsd-ctl test
+ 
+ conf-parse.c: conf-parse.y
+ 	$(YACC) $(AM_YFLAGS) $(YFLAGS) $< && perl yyparse_local_decl.pl y.tab.c > $*.c
+diff -urN pdnsd-1.1.8b1.org/src/pdnsd-ctl/Makefile.am pdnsd-1.1.8b1/src/pdnsd-ctl/Makefile.am
+--- pdnsd-1.1.8b1.org/src/pdnsd-ctl/Makefile.am	2003-12-12 18:29:58.139165195 +0100
++++ pdnsd-1.1.8b1/src/pdnsd-ctl/Makefile.am	2003-12-12 18:35:04.338126659 +0100
+@@ -2,9 +2,7 @@
+ 
+ sbin_PROGRAMS = pdnsd-ctl
+ 
+-pdnsd_ctl_SOURCES = pdnsd-ctl.c
+-pdnsd_ctl_LDADD =  rr_types.o
+-pdnsd_ctl_DEPENDENCIES = rr_types.o
++pdnsd_ctl_SOURCES = pdnsd-ctl.c $(top_srcdir)/src/rr_types.c
+ 
+ # These are Symlinks we want to have in the package
+ #EXTRA_DIST = rr_types.h
+diff -urN pdnsd-1.1.8b1.org/src/test/Makefile.am pdnsd-1.1.8b1/src/test/Makefile.am
+--- pdnsd-1.1.8b1.org/src/test/Makefile.am	2003-12-12 18:29:58.162160385 +0100
++++ pdnsd-1.1.8b1/src/test/Makefile.am	2003-12-12 18:39:40.666359767 +0100
+@@ -6,27 +6,15 @@
+ ## Dirty trick:  I demand that these objects be built; then, with the knowledge
+ ## that the object files will end up here, I redefine the link chain. 
+ 
+-TESTADDSRC=
+-#TESTADDSRC= netdev.c error.c thread.c helpers.c icmp.c
+-TESTDEPS = ../netdev.o ../error.o ../thread.o ../helpers.o ../icmp.o
+-
+-TESTOBJS = netdev.o error.o thread.o helpers.o icmp.o
++TESTADDSRC = $(top_srcdir)/src/netdev.c $(top_srcdir)/src/error.c $(top_srcdir)/src/thread.c $(top_srcdir)/src/helpers.c $(top_srcdir)/src/icmp.c
+ 
+ if_up_SOURCES = if_up.c $(TESTADDSRC)
+-if_up_LDADD =  $(TESTOBJS)
+-if_up_DEPENDENCIES = $(TESTDEPS)
+ 
+ is_local_addr_SOURCES = is_local_addr.c $(TESTADDSRC)
+-is_local_addr_LDADD = $(TESTOBJS)
+-is_local_addr_DEPENDENCIES = $(TESTDEPS)
+ 
+ tping_SOURCES = tping.c $(TESTADDSRC)
+-tping_LDADD = $(TESTOBJS)
+-tping_DEPENDENCIES = $(TESTDEPS)
+ 
+ random_SOURCES = random.c $(TESTADDSRC)
+-random_LDADD = $(TESTOBJS)
+-random_DEPENDENCIES = $(TESTDEPS)
+ 
+ # These are Symlinks we want to have in the package
+ #EXTRA_DIST = conff.h error.h helpers.h icmp.h ipvers.h netdev.h thread.h cacheing
