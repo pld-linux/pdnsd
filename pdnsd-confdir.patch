@@ -1,0 +1,11 @@
+--- pdnsd-1.1.6/configure.in.old	Mon Jul  2 20:40:20 2001
++++ pdnsd-1.1.6/configure.in		Sun Dec 30 00:28:39 2001
+@@ -4,7 +4,7 @@
+ 
+ test -z "$CFLAGS" && CFLAGS="-Wall -pedantic -g"
+ 
+-CFLAGS="$CFLAGS -D_REENTRANT -D_THREAD_SAFE -DCONFDIR=\"\\\"@sysconfdir@\\\"\""
++CFLAGS="$CFLAGS -D_REENTRANT -D_THREAD_SAFE -DCONFDIR=\"\\\"$sysconfdir\\\"\""
+ 
+ PACKAGE="pdnsd"
+ VERSION=`cat version`

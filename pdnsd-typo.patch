@@ -1,0 +1,11 @@
+--- pdnsd-1.1.5/src/dns.c~	Sun Jun  3 23:11:43 2001
++++ pdnsd-1.1.5/src/dns.c	Sun Jun 10 22:39:45 2001
+@@ -307,7 +307,7 @@
+ 		if (tp==T_AAAA) {
+ 			b2[0]='\0';
+ 			for (i=15;i>=0;i--) {
+-				snprintf((char *)b4, sizof(b4),"%x.%x.",((unsigned char *)&a->ipv6)[i]&&0xf,(((unsigned char *)&a->ipv6)[i]&&0xf0)>>4);
++				snprintf((char *)b4, sizeof(b4),"%x.%x.",((unsigned char *)&a->ipv6)[i]&&0xf,(((unsigned char *)&a->ipv6)[i]&&0xf0)>>4);
+ 				strncat((char *)b2,(char *)b4,sizeof(b2)-strlen(b2)-1);
+ 			}
+ 			strncat((char *)b2,"ip6.int.",sizeof(b2)-strlen(b2)-1);
