@@ -13,6 +13,11 @@
 # Get network config
 . /etc/sysconfig/network
 
+# Default parameters
+STATUS="--status"
+DEBUG="--debug"
+VERBOSE="-v2"
+
 # Get service config - may override defaults
 [ -f /etc/sysconfig/pdnsd ] && . /etc/sysconfig/pdnsd
 
@@ -29,7 +34,7 @@ case "$1" in
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/pdns ]; then
 		msg_starting Pdns
-		daemon pdnsd --daemon
+		daemon pdnsd --daemon $STATUS $DEBUG $VERBOSE
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/pdns
 	else
