@@ -33,7 +33,7 @@ fi
 
 test -x /usr/sbin/pdnsd || exit 0
 
-
+RETVAL=0
 case "$1" in
   start)
 	# Check if the service is already running?
@@ -44,7 +44,6 @@ case "$1" in
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/pdns
 	else
 		msg_already_running Pdns
-		exit 1
 	fi
 	;;
   stop)
@@ -56,25 +55,22 @@ case "$1" in
 		rm -f /var/lock/subsys/pdns >/dev/null 2>&1
 	else
 		msg_not_running Pdns
-		exit 1
 	fi
 	;;
   restart)
 	$0 stop
 	$0 start
+	exit $?
 	;;
-  reload)
+  reload|force-reload)
 	if [ -f /var/lock/subsys/pdns ]; then
 		msg_reloading Pdns
 		killproc pdnsd -HUP
+		RETVAL=$?
 	else
-		msg_not_running Pdns
-		exit 1
+		msg_not_running Pdns >&2
+		exit 7
 	fi
-	;;
-  force-reload)
-	$0 reload
-	exit $?
 	;;
   status)
 	status pdnsd
@@ -83,7 +79,7 @@ case "$1" in
   *)
 	# show "Usage: %s {start|stop|restart|reload|force-reload|status}"
 	msg_usage "$0 {start|stop|restart|reload|force-reload|status}"
-	exit 1
+	exit 3
 esac
 
 exit $RETVAL
