@@ -55,7 +55,7 @@ gzip -9nf AUTHORS ChangeLog NEWS README TODO \
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-                                                                                
+
 %post
 /sbin/chkconfig --add pdnsd
 if [ -f %{_localstatedir}/lock/subsys/pdnsd ]; then
