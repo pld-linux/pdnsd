@@ -22,12 +22,17 @@ VERBOSE="-v2"
 [ -f /etc/sysconfig/pdnsd ] && . /etc/sysconfig/pdnsd
 
 # Check that networking is up.
-if is_no "${NETWORKING}"; then
-	msg_Network_Down Pdnsd
-	exit 1
+if is_yes "${NETWORKING}"; then
+	if [ ! -f /var/lock/subsys/network ]; then
+		msg_network_down Pdnsd
+		exit 1
+	fi
+else
+	exit 0
 fi
 
 test -x /usr/sbin/pdnsd || exit 0
+
 
 case "$1" in
   start)
@@ -38,19 +43,19 @@ case "$1" in
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/pdns
 	else
-		msg_Already_Running Pdns
+		msg_already_running Pdns
 		exit 1
 	fi
 	;;
   stop)
-	# Stop daemons.
-	# show "Stopping %s service" pdns
 	if [ -f /var/lock/subsys/pdns ]; then
+		# Stop daemons.
+		# show "Stopping %s service" pdns
 		msg_stopping Pdns
 		killproc pdnsd
 		rm -f /var/lock/subsys/pdns >/dev/null 2>&1
 	else
-		msg_Not_Running Pdns
+		msg_not_running Pdns
 		exit 1
 	fi
 	;;
@@ -60,24 +65,15 @@ case "$1" in
 	;;
   reload)
 	if [ -f /var/lock/subsys/pdns ]; then
-		msg_show Pdns
-		msg_reload
-		busy
+		msg_reloading Pdns
 		killproc pdnsd -HUP
-		deltext
-		ok
 	else
-		msg_Not_Running Pdns
+		msg_not_running Pdns
 		exit 1
 	fi
 	;;
   force-reload)
-	# if program allows reloading without stopping
 	$0 reload
-	exit $?
-
-	# or if it doesn't
-	$0 stop && $0 start
 	exit $?
 	;;
   status)
@@ -85,8 +81,8 @@ case "$1" in
 	exit $?
 	;;
   *)
-	# show "Usage: %s {start|stop|status|restart|reload|force-reload}" $0
-	msg_Usage "$0 {start|stop|status|restart|reload|force-reload}"
+	# show "Usage: %s {start|stop|restart|reload|force-reload|status}"
+	msg_usage "$0 {start|stop|restart|reload|force-reload|status}"
 	exit 1
 esac
 
