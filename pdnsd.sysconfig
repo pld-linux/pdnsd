@@ -1,0 +1,11 @@
+# Set nice level for pdnsd
+SERVICE_RUN_NICE_LEVEL="+2"
+
+#STATUS="--status"
+#DEBUG="--debug"
+#VERBOSE="-v2"
+
+STATUS=""
+DEBUG=""
+VERBOSE=""
+
