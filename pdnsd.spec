@@ -2,7 +2,7 @@ Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl):	DNS proxy serwer dla ma³ej sieci lub jednostki z po³±czeniem dialup
 Name:		pdnsd
 Version:	1.1.4
-Release:	1
+Release:	2
 License:	GPL
 Group:		Daemons
 Group(de):	Server
@@ -69,9 +69,10 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc {*,doc/txt/*}.gz doc/html/*
+%doc {*,doc/txt/*}.gz doc/html/*.html
 %attr(754,root,root) /etc/rc.d/init.d/pdnsd
 %attr(755,root,root) %{_sbindir}/pdnsd
+%attr(755,root,root) %{_sbindir}/pdnsd-ctl
 %attr(770,nobody,nobody) %dir %{_var}/cache/pdnsd
 %attr(660,nobody,nobody) %config(noreplace) %verify(not md5 size mtime) %{_var}/cache/pdnsd/pdnsd.cache
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/pdnsd.conf
