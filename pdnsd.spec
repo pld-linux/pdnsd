@@ -1,13 +1,13 @@
-# TODO: nobody MUST NOT own any files!
 Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl):	DNS proxy serwer dla ma³ej sieci lub jednostki z po³±czeniem dialup
 Name:		pdnsd
-Version:	1.1.8b1
-Release:	0.par8.2
+Version:	1.2.1
+%define	par	par
+Release:	0.par0.0
 License:	GPL
 Group:		Networking/Daemons
-Source0:	http://www.phys.uu.nl/~rombouts/pdnsd/releases/%{name}-%{version}-par8.tar.gz
-# Source0-md5:	00847e63641e241f07687387e0c2c1b4
+Source0:	http://www.phys.uu.nl/~rombouts/pdnsd/releases/%{name}-%{version}-%{par}.tar.gz
+# Source0-md5:	7be77e25ba8b3de73df32706d956c294
 Source1:	%{name}.init
 Patch0:		%{name}-threads_signals.patch
 Patch1:		%{name}-ac_am.patch
@@ -16,7 +16,6 @@ URL:		http://www.phys.uu.nl/~rombouts/pdnsd.html
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	flex
-BuildRequires:	nobody-must-not-own-any-files
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Provides:	caching-nameserver
@@ -49,8 +48,10 @@ rm -fr src/rc
 %{__autoheader}
 %{__automake}
 %configure \
+	--with-default-id=pdnsd \
 	--enable-ipv6 \
-	--with-thread-lib=LinuxThreads2
+	--with-thread-lib=LinuxThreads2 \
+	--enable-tcp-subseq
 %{__make}
 
 %install
@@ -65,6 +66,25 @@ mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf{.sample,}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%pre
+if [ -n "`/usr/bin/getgid pdnsd`" ]; then
+        if [ "`/usr/bin/getgid pdnsd`" != "140" ]; then
+                echo "Error: group pdnsd doesn't have gid=140. Correct this before installing pdnsdd." 1>&2
+                exit 1
+        fi
+else
+        /usr/sbin/groupadd -g 140 pdnsd 1>&2
+fi
+if [ -n "`/bin/id -u pdnsd 2>/dev/null`" ]; then
+        if [ "`/bin/id -u pdnsd`" != "140" ]; then
+                echo "Error: user pdnsd doesn't have uid=140. Correct this before installing pdnsdd server." 1>&2
+                exit 1
+        fi
+else
+        /usr/sbin/useradd -u 140 -d /tmp -s /bin/false -c "pdnsd user" \
+                -g pdnsd pdnsd 1>&2
+fi
 
 %post
 /sbin/chkconfig --add pdnsd
@@ -82,13 +102,19 @@ if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del pdnsd
 fi
 
+%postun
+if [ "$1" = "0" ]; then
+        %userremove pdnsd
+        %groupremove pdnsd
+fi
+
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO doc/txt/*.txt doc/html/*.html
 %attr(754,root,root) /etc/rc.d/init.d/pdnsd
 %attr(755,root,root) %{_sbindir}/pdnsd
 %attr(755,root,root) %{_sbindir}/pdnsd-ctl
-%attr(775,nobody,nobody) %dir %{_var}/cache/pdnsd
-%attr(664,nobody,nobody) %config(noreplace) %verify(not md5 size mtime) %{_var}/cache/pdnsd/pdnsd.cache
+%attr(775,pdnsd,pdnsd) %dir %{_var}/cache/pdnsd
+%attr(664,pdnsd,pdnsd) %config(noreplace) %verify(not md5 size mtime) %{_var}/cache/pdnsd/pdnsd.cache
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/pdnsd.conf
-%{_mandir}/man8/*
+%{_mandir}/man[58]/*
