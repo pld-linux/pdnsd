@@ -41,31 +41,17 @@ case "$1" in
 	# Stop daemons.
 	# show "Stopping %s service" pdns
 	if [ -f /var/lock/subsys/pdns ]; then
-
-#	1.	killproc causes pdnsd not to save cache file on exit.
-#		The only signals not doing this are 4, 6, 8 and 11.
-#		These signals terminate this script anyway.
-#	2.	killproc tries to kill all found processes. In this
-#		case they are connected and die together, so doing
-#		this will print errors on screen.
-
-#		msg_stopping Pdns
-#		killproc pdnsd
-
-		echo "Stopping Pdns service"
-
+		msg_stopping Pdns
+		killproc pdnsd
 		rm -f /var/lock/subsys/pdns >/dev/null 2>&1
-		
-		killall -FPE pdnsd
-		
 	else
 		msg_Not_Running Pdns
 		exit 1
-	fi	
+	fi
 	;;
   restart)
-	echo "Due to a pdnsd bug you must start it manually."
 	$0 stop
+	$0 start
 	;;
   reload)
 	if [ -f /var/lock/subsys/pdns ]; then
@@ -74,7 +60,7 @@ case "$1" in
 		busy
 		killproc pdnsd -HUP
 		deltext
-		ok		
+		ok
 	else
 		msg_Not_Running Pdns
 		exit 1
@@ -86,7 +72,7 @@ case "$1" in
 	exit $?
 
 	# or if it doesn't
-	$0 restart
+	$0 stop && $0 start
 	exit $?
 	;;
   status)
