@@ -10,6 +10,7 @@ Group(pl):	Sieciowe/Serwery
 Vendor:		Thomas Moestl
 Source0:	http://home.t-online.de/home/Moestl/%{name}-%{version}.tar.bz2
 Source1:	%{name}.init
+Patch0:		%{name}-typo.patch
 URL:		http://home.t-online.de/home/Moestl/
 BuildRequires:	flex
 Prereq:		rc-scripts
@@ -30,6 +31,7 @@ dialup).
 
 %prep
 %setup -q
+%patch -p1
 
 %build
 %configure \
