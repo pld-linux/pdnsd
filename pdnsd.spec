@@ -32,10 +32,11 @@ dialup).
 %setup -q
 
 %build
+rm -f missing
 aclocal
-%{__autoconf}
 autoheader
-automake -a -f
+%{__autoconf}
+%{__automake}
 %configure \
 	--enable-ipv6
 %{__make}
@@ -46,6 +47,7 @@ install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/pdnsd
 mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf.sample \
 	$RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf
