@@ -76,4 +76,5 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/pdnsd
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pdnsd.conf
 %attr(755,root,root) %{_sbindir}/pdnsd
-%dir /var/cache/pdnsd
+%attr(770,nobody,nobody) %dir /var/cache/pdnsd
+%attr(660, nobody, nobody) %config /var/cache/pdnsd/pdnsd.cache
