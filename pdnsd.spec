@@ -2,7 +2,7 @@ Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl):	DNS proxy serwer dla ma³ej sieci lub jednostki z po³±czeniem dialup
 Name:		pdnsd
 Version:	1.1.7a
-Release:	4
+Release:	5
 License:	GPL
 Group:		Networking/Daemons
 Vendor:		Thomas Moestl
@@ -15,9 +15,11 @@ BuildRequires:	automake
 BuildRequires:	flex
 PreReq:		/sbin/chkconfig
 PreReq:		rc-scripts
-Provides:   caching-nameserver
-Obsoletes:  bind
+Provides:	caching-nameserver
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Obsoletes:	bind
+Obsoletes:	maradns
+Obsoletes:	maradns-zoneserver
 
 %description
 pdnsd is a proxy DNS daemon with permanent (disk-)cache and the
