@@ -25,6 +25,7 @@ fi
 test -x /usr/sbin/pdnsd || exit 0
 
 case "$1" in
+  start)
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/pdns ]; then
 		msg_starting Pdns
