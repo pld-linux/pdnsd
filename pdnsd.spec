@@ -16,6 +16,8 @@ PreReq:		/sbin/chkconfig
 PreReq:		rc-scripts
 Provides:	caching-nameserver
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Obsoletes:      caching-nameserver
+Obsoletes:      nameserver
 Obsoletes:	bind
 Obsoletes:	maradns
 Obsoletes:	maradns-zoneserver
