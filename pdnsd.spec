@@ -1,8 +1,8 @@
 Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl):	DNS proxy serwer dla ma³ej sieci lub jednostki z po³±czeniem dialup
 Name:		pdnsd
-Version:	1.1.6
-Release:	3
+Version:	1.1.7
+Release:	1
 License:	GPL
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
@@ -10,8 +10,6 @@ Group(pl):	Sieciowe/Serwery
 Vendor:		Thomas Moestl
 Source0:	http://home.t-online.de/home/Moestl/%{name}-%{version}.tar.bz2
 Source1:	%{name}.init
-Patch0:		%{name}-automake.patch
-Patch1:		%{name}-confdir.patch
 URL:		http://home.t-online.de/home/Moestl/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -34,8 +32,6 @@ dialup).
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
 
 %build
 aclocal
