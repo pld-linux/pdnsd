@@ -31,7 +31,7 @@ outages or hangups and to prevent DNS-dependent applications like
 Netscape Navigator from hanging.
 
 %description -l pl
-pdnsd jest serwerem proxy dla us³ugi DNS, zapisujacym bufor ze
+pdnsd jest serwerem proxy dla us³ugi DNS, zapisuj±cym bufor ze
 zgromadzonymi informacjami na dysku. Bêdzie on szczególnie u¿yteczny
 dla jednostki pracujacej w trybie off-line (np. poprzez po³±czenie
 dialup).
