@@ -12,6 +12,8 @@ Source0:	http://home.t-online.de/home/Moestl/%{name}-%{version}.tar.bz2
 Source1:	%{name}.init
 URL:		http://home.t-online.de/home/Moestl/
 BuildRequires:	flex
+BuildRequires:	autoconf
+BuildRequires:	automake
 Prereq:		rc-scripts
 Prereq:		/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -45,7 +47,7 @@ install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/pdnsd
-mv $RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf.sample \
+mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf.sample \
 	$RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf
 
 gzip -9nf AUTHORS ChangeLog NEWS README TODO \
