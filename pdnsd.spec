@@ -2,7 +2,7 @@ Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl):	DNS proxy serwer dla ma³ej sieci lub jednostki z po³±czeniem dialup
 Name:		pdnsd
 Version:	1.1.7a
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Daemons
 Vendor:		Thomas Moestl
@@ -50,9 +50,6 @@ install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/pdnsd
 mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf.sample \
 	$RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf
 
-gzip -9nf AUTHORS ChangeLog NEWS README TODO \
-	doc/txt/*.txt
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -74,10 +71,11 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc {*,doc/txt/*}.gz doc/html/*.html
+%doc AUTHORS ChangeLog NEWS README TODO doc/txt/*.txt doc/html/*.html
 %attr(754,root,root) /etc/rc.d/init.d/pdnsd
 %attr(755,root,root) %{_sbindir}/pdnsd
 %attr(755,root,root) %{_sbindir}/pdnsd-ctl
 %attr(775,nobody,nobody) %dir %{_var}/cache/pdnsd
 %attr(664,nobody,nobody) %config(noreplace) %verify(not md5 size mtime) %{_var}/cache/pdnsd/pdnsd.cache
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/pdnsd.conf
+%{_mandir}/man8/*
