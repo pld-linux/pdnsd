@@ -5,7 +5,6 @@ Version:	1.1.7a
 Release:	5
 License:	GPL
 Group:		Networking/Daemons
-Vendor:		Thomas Moestl
 Source0:	http://home.t-online.de/home/Moestl/%{name}-%{version}.tar.bz2
 Source1:	%{name}.init
 Patch0:		%{name}-threads_signals.patch
