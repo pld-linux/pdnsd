@@ -1,0 +1,25 @@
+diff -Nur pdnsd-1.1.7a.orig/configure.in pdnsd-1.1.7a/configure.in
+--- pdnsd-1.1.7a.orig/configure.in	Sun Dec 30 16:32:51 2001
++++ pdnsd-1.1.7a/configure.in	Fri Dec  5 22:32:34 2003
+@@ -370,12 +370,5 @@
+ src/Makefile
+ src/conf-lex.l
+ src/pdnsd-ctl/Makefile
+-src/rc/Makefile
+-src/rc/RedHat/Makefile
+-src/rc/RedHat/pdnsd
+-src/rc/SuSE/Makefile
+-src/rc/SuSE/pdnsd
+-src/rc/Debian/Makefile
+-src/rc/Debian/pdnsd
+ src/test/Makefile
+ ])
+diff -Nur pdnsd-1.1.7a.orig/src/Makefile.am pdnsd-1.1.7a/src/Makefile.am
+--- pdnsd-1.1.7a.orig/src/Makefile.am	Wed May  9 19:51:52 2001
++++ pdnsd-1.1.7a/src/Makefile.am	Fri Dec  5 22:14:52 2003
+@@ -11,5 +11,5 @@
+ 
+ ## Try to do this last
+ 
+-SUBDIRS = pdnsd-ctl rc test
++SUBDIRS = pdnsd-ctl test
