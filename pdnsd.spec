@@ -6,6 +6,7 @@ Release:	5
 License:	GPL
 Group:		Networking/Daemons
 Source0:	http://home.t-online.de/home/Moestl/%{name}-%{version}.tar.bz2
+# Source0-md5:	9e51a4e4ac14cc537ee3204d3e4ac8ff
 Source1:	%{name}.init
 Patch0:		%{name}-threads_signals.patch
 URL:		http://home.t-online.de/home/Moestl/
