@@ -15,6 +15,8 @@ BuildRequires:	automake
 BuildRequires:	flex
 PreReq:		/sbin/chkconfig
 PreReq:		rc-scripts
+Provides:   caching-nameserver
+Obsoletes:  bind
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
