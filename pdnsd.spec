@@ -33,7 +33,7 @@ dialup).
 
 %build
 aclocal
-autoconf
+%{__autoconf}
 autoheader
 automake -a -f
 %configure \
