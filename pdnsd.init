@@ -40,7 +40,7 @@ case "$1" in
   stop)
         # Stop daemons.
         # show "Stopping %s service" pdns
-	if [ -f /var/lock/subsys/syslogd ]; then
+	if [ -f /var/lock/subsys/pdns ]; then
 		msg_stopping Pdns
 		killproc pdnsd
 		rm -f /var/lock/subsys/pdns >/dev/null 2>&1
