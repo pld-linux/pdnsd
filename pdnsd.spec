@@ -37,20 +37,20 @@ dialup).
 %{__make}
 
 %install
-%{__rm} -rf $RPM_BUILD_ROOT
-%{__install} -d $RPM_BUILD_ROOT/etc/rc.d/init.d
+rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
-%{__install} %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/pdnsd
-%{__mv} $RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf.sample \
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/pdnsd
+mv $RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf.sample \
 	$RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf
 
-%{__gzip} -9nf AUTHORS ChangeLog NEWS README TODO \
+gzip -9nf AUTHORS ChangeLog NEWS README TODO \
 	doc/txt/*.txt
 
 %clean
-%{__rm} -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
                                                                                 
 %post
 /sbin/chkconfig --add pdnsd
