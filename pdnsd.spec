@@ -2,7 +2,7 @@ Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl):	DNS proxy serwer dla ma³ej sieci lub jednostki z po³±czeniem dialup
 Name:		pdnsd
 Version:	1.1.6
-Release:	2
+Release:	3
 License:	GPL
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
@@ -10,12 +10,14 @@ Group(pl):	Sieciowe/Serwery
 Vendor:		Thomas Moestl
 Source0:	http://home.t-online.de/home/Moestl/%{name}-%{version}.tar.bz2
 Source1:	%{name}.init
+Patch0:		%{name}-automake.patch
+Patch1:		%{name}-confdir.patch
 URL:		http://home.t-online.de/home/Moestl/
-BuildRequires:	flex
 BuildRequires:	autoconf
 BuildRequires:	automake
-Prereq:		rc-scripts
+BuildRequires:	flex
 Prereq:		/sbin/chkconfig
+Prereq:		rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -25,17 +27,21 @@ outages or hangups and to prevent DNS-dependent applications like
 Netscape Navigator from hanging.
 
 %description -l pl
-pdnsd jest serwerem proxy do us³ugi DNS zapisujacym bufor ze
+pdnsd jest serwerem proxy dla us³ugi DNS, zapisujacym bufor ze
 zgromadzonymi informacjami na dysku. Bêdzie on szczególnie u¿yteczny
 dla jednostki pracujacej w trybie off-line (np. poprzez po³±czenie
 dialup).
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
 
 %build
 aclocal
 autoconf
+autoheader
+automake -a -f
 %configure \
 	--enable-ipv6
 %{__make}
@@ -78,6 +84,6 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/pdnsd
 %attr(755,root,root) %{_sbindir}/pdnsd
 %attr(755,root,root) %{_sbindir}/pdnsd-ctl
-%attr(770,nobody,nobody) %dir %{_var}/cache/pdnsd
-%attr(660,nobody,nobody) %config(noreplace) %verify(not md5 size mtime) %{_var}/cache/pdnsd/pdnsd.cache
+%attr(775,nobody,nobody) %dir %{_var}/cache/pdnsd
+%attr(664,nobody,nobody) %config(noreplace) %verify(not md5 size mtime) %{_var}/cache/pdnsd/pdnsd.cache
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/pdnsd.conf
