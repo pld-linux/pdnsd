@@ -2,7 +2,7 @@
 #
 # pdns		Proxy DNS Daemon
 #
-# chkconfig:	345 87 14
+# chkconfig:	345 14 89
 #
 # description:	Proxy DNS Daemon
 #
