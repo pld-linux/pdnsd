@@ -2,12 +2,13 @@ Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl):	DNS proxy serwer dla ma³ej sieci lub jednostki z po³±czeniem dialup
 Name:		pdnsd
 Version:	1.1.7a
-Release:	3
+Release:	4
 License:	GPL
 Group:		Networking/Daemons
 Vendor:		Thomas Moestl
 Source0:	http://home.t-online.de/home/Moestl/%{name}-%{version}.tar.bz2
 Source1:	%{name}.init
+Patch0:		%{name}-threads_signals.patch
 URL:		http://home.t-online.de/home/Moestl/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -30,12 +31,13 @@ dialup).
 
 %prep
 %setup -q
+%patch0 -p0
 
 %build
 rm -f missing
 aclocal
-autoheader
 %{__autoconf}
+autoheader
 %{__automake}
 %configure \
 	--enable-ipv6
@@ -45,12 +47,10 @@ autoheader
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+%{__make} install DESTDIR=$RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/pdnsd
-mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf.sample \
-	$RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf
+mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf{.sample,}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
