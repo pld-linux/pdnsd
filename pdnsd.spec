@@ -2,16 +2,17 @@
 Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl):	DNS proxy serwer dla ma³ej sieci lub jednostki z po³±czeniem dialup
 Name:		pdnsd
-Version:	1.1.7a
-Release:	5.2
+Version:	1.1.8b1
+Release:	0.par8.1
 License:	GPL
 Group:		Networking/Daemons
-Source0:	http://home.t-online.de/home/Moestl/%{name}-%{version}.tar.bz2
-# Source0-md5:	9e51a4e4ac14cc537ee3204d3e4ac8ff
+Source0:	http://www.phys.uu.nl/~rombouts/pdnsd/%{name}-%{version}-par8.tar.gz
+# Source0-md5:	00847e63641e241f07687387e0c2c1b4
 Source1:	%{name}.init
 Patch0:		%{name}-threads_signals.patch
 Patch1:		%{name}-ac_am.patch
-URL:		http://home.t-online.de/home/Moestl/
+# Old URL:	http://home.t-online.de/home/Moestl/
+URL:		http://www.phys.uu.nl/~rombouts/pdnsd.html
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	flex
@@ -37,7 +38,7 @@ dialup).
 
 %prep
 %setup -q
-%patch0 -p0
+#%patch0 -p0
 %patch1 -p1
 
 %build
@@ -48,7 +49,8 @@ rm -fr src/rc
 %{__autoheader}
 %{__automake}
 %configure \
-	--enable-ipv6
+	--enable-ipv6 \
+	--with-thread-lib=LinuxThreads2
 %{__make}
 
 %install
