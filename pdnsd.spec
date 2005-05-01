@@ -17,9 +17,18 @@ URL:		http://www.phys.uu.nl/~rombouts/pdnsd.html
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	flex
+BuildRequires:	rpmbuild(macros) >= 1.202
 PreReq:		rc-scripts
+Requires(pre):	/bin/id
+Requires(pre):	/usr/bin/getgid
+Requires(pre):	/usr/sbin/groupadd
+Requires(pre):	/usr/sbin/useradd
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
 Requires(post,preun):	/sbin/chkconfig
 Provides:	caching-nameserver
+Provides:	user(pdnsd)
+Provides:	group(pdnsd)
 Obsoletes:	bind
 Obsoletes:	maradns
 Obsoletes:	maradns-zoneserver
@@ -71,23 +80,8 @@ mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf{.sample,}
 rm -rf $RPM_BUILD_ROOT
 
 %pre
-if [ -n "`/usr/bin/getgid pdnsd`" ]; then
-        if [ "`/usr/bin/getgid pdnsd`" != "140" ]; then
-                echo "Error: group pdnsd doesn't have gid=140. Correct this before installing pdnsdd." 1>&2
-                exit 1
-        fi
-else
-        /usr/sbin/groupadd -g 140 pdnsd 1>&2
-fi
-if [ -n "`/bin/id -u pdnsd 2>/dev/null`" ]; then
-        if [ "`/bin/id -u pdnsd`" != "140" ]; then
-                echo "Error: user pdnsd doesn't have uid=140. Correct this before installing pdnsdd server." 1>&2
-                exit 1
-        fi
-else
-        /usr/sbin/useradd -u 140 -d /tmp -s /bin/false -c "pdnsd user" \
-                -g pdnsd pdnsd 1>&2
-fi
+%groupadd -g 140 pdnsd
+%useradd -u 140 -d /tmp -s /bin/false -c "pdnsd user" -g pdnsd pdnsd
 
 %post
 /sbin/chkconfig --add pdnsd
@@ -107,8 +101,8 @@ fi
 
 %postun
 if [ "$1" = "0" ]; then
-        %userremove pdnsd
-        %groupremove pdnsd
+	%userremove pdnsd
+	%groupremove pdnsd
 fi
 
 %files
