@@ -1,13 +1,13 @@
 Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl):	DNS proxy serwer dla ma³ej sieci lub jednostki z po³±czeniem dialup
 Name:		pdnsd
-Version:	1.2.1
+Version:	1.2.2
 %define	par	par
 Release:	0.par0.0
 License:	GPL
 Group:		Networking/Daemons
 Source0:	http://www.phys.uu.nl/~rombouts/pdnsd/releases/%{name}-%{version}-%{par}.tar.gz
-# Source0-md5:	7be77e25ba8b3de73df32706d956c294
+# Source0-md5:	b28232086131760c91aa4c49a877ef12
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-threads_signals.patch
