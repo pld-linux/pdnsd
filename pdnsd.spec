@@ -1,13 +1,13 @@
 Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl):	DNS proxy serwer dla ma³ej sieci lub jednostki z po³±czeniem dialup
 Name:		pdnsd
-Version:	1.2.2
+Version:	1.2.3
 %define	par	par
 Release:	0.par0.0
 License:	GPL
 Group:		Networking/Daemons
 Source0:	http://www.phys.uu.nl/~rombouts/pdnsd/releases/%{name}-%{version}-%{par}.tar.gz
-# Source0-md5:	b28232086131760c91aa4c49a877ef12
+# Source0-md5:	76f8be89e8fd0c8f08ba0d919216e475
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-threads_signals.patch
@@ -109,10 +109,10 @@ fi
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO doc/txt/*.txt doc/html/*.html
 %attr(754,root,root) /etc/rc.d/init.d/pdnsd
-%attr(640,root,root) %config(noreplace) %verify(not md5 size mtime) /etc/sysconfig/pdnsd
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/pdnsd
 %attr(755,root,root) %{_sbindir}/pdnsd
 %attr(755,root,root) %{_sbindir}/pdnsd-ctl
 %attr(775,pdnsd,pdnsd) %dir %{_var}/cache/pdnsd
-%attr(664,pdnsd,pdnsd) %config(noreplace) %verify(not md5 size mtime) %{_var}/cache/pdnsd/pdnsd.cache
-%config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/pdnsd.conf
+%attr(664,pdnsd,pdnsd) %config(noreplace) %verify(not md5 mtime size) %{_var}/cache/pdnsd/pdnsd.cache
+%attr(640,root,pdnsd) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pdnsd.conf
 %{_mandir}/man[58]/*
