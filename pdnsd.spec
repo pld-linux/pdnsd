@@ -1,8 +1,8 @@
+%define	par	par
 Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl):	DNS proxy serwer dla ma³ej sieci lub jednostki z po³±czeniem dialup
 Name:		pdnsd
 Version:	1.2.4
-%define	par	par
 Release:	0.par0.0
 License:	GPL
 Group:		Networking/Daemons
@@ -17,18 +17,18 @@ URL:		http://www.phys.uu.nl/~rombouts/pdnsd.html
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	flex
-BuildRequires:	rpmbuild(macros) >= 1.202
-PreReq:		rc-scripts
+BuildRequires:	rpmbuild(macros) >= 1.268
+Requires(post,preun):	/sbin/chkconfig
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/bin/id
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
-Requires(postun):	/usr/sbin/groupdel
-Requires(postun):	/usr/sbin/userdel
-Requires(post,preun):	/sbin/chkconfig
+Requires:	rc-scripts
 Provides:	caching-nameserver
-Provides:	user(pdnsd)
 Provides:	group(pdnsd)
+Provides:	user(pdnsd)
 Obsoletes:	bind
 Obsoletes:	maradns
 Obsoletes:	maradns-zoneserver
@@ -85,17 +85,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add pdnsd
-if [ -f %{_localstatedir}/lock/subsys/pdnsd ]; then
-	/etc/rc.d/init.d/pdnsd restart >&2
-else
-	echo "Run \"/etc/rc.d/init.d/pdnsd start\" to start pdnsd." >&2
-fi
+%service pdnsd restart
 
 %preun
 if [ "$1" = "0" ]; then
-	if [ -f %{_localstatedir}/lock/subsys/pdnsd ]; then
-		/etc/rc.d/init.d/pdnsd stop
-	fi
+	%service pdnsd stop
 	/sbin/chkconfig --del pdnsd
 fi
 
