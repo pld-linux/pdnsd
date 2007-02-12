@@ -1,6 +1,6 @@
 %define	par	par
 Summary:	A caching dns proxy for small networks or dialin accounts
-Summary(pl):	DNS proxy serwer dla ma³ej sieci lub jednostki z po³±czeniem dialup
+Summary(pl.UTF-8):   DNS proxy serwer dla maÅ‚ej sieci lub jednostki z poÅ‚Ä…czeniem dialup
 Name:		pdnsd
 Version:	1.2.5
 Release:	2
@@ -40,10 +40,10 @@ ability to serve local records. It is designed to detect network
 outages or hangups and to prevent DNS-dependent applications like
 Netscape Navigator from hanging.
 
-%description -l pl
-pdnsd jest serwerem proxy dla us³ugi DNS, zapisuj±cym bufor ze
-zgromadzonymi informacjami na dysku. Bêdzie on szczególnie u¿yteczny
-dla jednostki pracujacej w trybie off-line (np. poprzez po³±czenie
+%description -l pl.UTF-8
+pdnsd jest serwerem proxy dla usÅ‚ugi DNS, zapisujÄ…cym bufor ze
+zgromadzonymi informacjami na dysku. BÄ™dzie on szczegÃ³lnie uÅ¼yteczny
+dla jednostki pracujacej w trybie off-line (np. poprzez poÅ‚Ä…czenie
 dialup).
 
 %prep
