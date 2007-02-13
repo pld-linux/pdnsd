@@ -1,6 +1,6 @@
 %define	par	par
 Summary:	A caching dns proxy for small networks or dialin accounts
-Summary(pl.UTF-8):   DNS proxy serwer dla małej sieci lub jednostki z połączeniem dialup
+Summary(pl.UTF-8):	DNS proxy serwer dla małej sieci lub jednostki z połączeniem dialup
 Name:		pdnsd
 Version:	1.2.5
 Release:	2
