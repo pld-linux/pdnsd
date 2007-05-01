@@ -1,0 +1,43 @@
+--- pdnsd-1.2.5/doc/pdnsd.conf.in.query_roots_in_default_conf.patch	2007-05-01 12:13:57.000000000 +0200
++++ pdnsd-1.2.5/doc/pdnsd.conf.in	2007-05-01 12:14:36.000000000 +0200
+@@ -10,13 +10,14 @@
+ 				# machines on your network to query pdnsd.
+ 	status_ctl = on;
+ #	paranoid=on;
+-#	query_method=tcp_udp;	# pdnsd must be compiled with tcp
++	query_method=tcp_udp;	# pdnsd must be compiled with tcp
+ 				# query support for this to work.
+ 	min_ttl=15m;       # Retain cached entries at least 15 minutes.
+ 	max_ttl=1w;	   # One week.
+ 	timeout=10;        # Global timeout option (10 seconds).
+ }
+ 
++/*
+ # The following section is most appropriate for fixed connections to the Internet.
+ server {
+ 	label= "myisp";
+@@ -30,6 +31,7 @@
+ 	purge_cache=off;   # Keep stale cache entries in case the ISP's
+ 			   # DNS servers go offline.
+ }
++*/
+ 
+ /*
+ # The following section is more appropriate for dial-up connections.
+@@ -47,7 +49,6 @@
+ }
+ */
+ 
+-/*
+ # This section is meant for resolving from root servers.
+ server {
+ 	label = "root-servers";
+@@ -75,7 +76,7 @@
+ 	policy = included;
+ 	preset = off;
+ }
+-*/
++
+ 
+ source {
+ 	owner=localhost;
