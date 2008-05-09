@@ -2,17 +2,18 @@
 Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl.UTF-8):	DNS proxy serwer dla małej sieci lub jednostki z połączeniem dialup
 Name:		pdnsd
-Version:	1.2.5
-Release:	3
+Version:	1.2.6
+Release:	1
 License:	GPL
 Group:		Networking/Daemons
 Source0:	http://www.phys.uu.nl/~rombouts/pdnsd/releases/%{name}-%{version}-%{par}.tar.gz
-# Source0-md5:	8b1bb9b6b40383a484a90de5d992b4ee
+# Source0-md5:	65c88e22152a885a0437578eedc8b118
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-threads_signals.patch
 Patch1:		%{name}-ac_am.patch
 Patch2:		%{name}-query_roots_in_default_conf.patch
+Patch3:		%{name}-ipv6_pktinfo.patch
 # Old URL:	http://home.t-online.de/home/Moestl/
 URL:		http://www.phys.uu.nl/~rombouts/pdnsd.html
 BuildRequires:	autoconf
@@ -52,6 +53,7 @@ dialup).
 #%patch0 -p0
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 rm -fr src/rc
@@ -62,8 +64,12 @@ rm -fr src/rc
 %configure \
 	--with-default-id=pdnsd \
 	--enable-ipv6 \
+	--enable-tcp-subseq \
+	--with-query-method=udptcp \
 	--with-thread-lib=LinuxThreads2 \
-	--enable-tcp-subseq
+	--with-random-device=/dev/urandom \
+	--with-par-queries=16
+
 %{__make}
 
 %install
