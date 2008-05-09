@@ -1,0 +1,12 @@
+diff -urN pdnsd-1.2.6.orig/src/dns_answer.c pdnsd-1.2.6/src/dns_answer.c
+--- pdnsd-1.2.6.orig/src/dns_answer.c	2007-08-19 16:46:12.000000000 +0200
++++ pdnsd-1.2.6/src/dns_answer.c	2008-05-09 13:16:26.000000000 +0200
+@@ -1325,7 +1325,7 @@
+ 
+ # ifdef ENABLE_IPV6
+ 	if (!run_ipv4) {
+-		if (setsockopt(sock,SOL_IPV6,IPV6_RECVPKTINFO,&so,sizeof(so))!=0) {
++		if (setsockopt(sock,SOL_IPV6,IPV6_PKTINFO,&so,sizeof(so))!=0) {
+ 			log_error("Could not set options on udp socket: %s",strerror(errno));
+ 			close(sock);
+ 			return -1;
