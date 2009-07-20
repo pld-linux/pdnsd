@@ -2,19 +2,17 @@
 Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl.UTF-8):	DNS proxy serwer dla małej sieci lub jednostki z połączeniem dialup
 Name:		pdnsd
-Version:	1.2.6
-Release:	1
+Version:	1.2.7
+Release:	3
 License:	GPL
 Group:		Networking/Daemons
 Source0:	http://www.phys.uu.nl/~rombouts/pdnsd/releases/%{name}-%{version}-%{par}.tar.gz
-# Source0-md5:	65c88e22152a885a0437578eedc8b118
+# Source0-md5:	114b3b21b09b43cbfcccdde726b84c12
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
-Patch0:		%{name}-threads_signals.patch
-Patch1:		%{name}-ac_am.patch
-Patch2:		%{name}-query_roots_in_default_conf.patch
-Patch3:		%{name}-ipv6_pktinfo.patch
-# Old URL:	http://home.t-online.de/home/Moestl/
+Patch0:		%{name}-ac_am.patch
+Patch1:		%{name}-query_roots_in_default_conf.patch
+Patch2:		%{name}-ipv6_pktinfo.patch
 URL:		http://www.phys.uu.nl/~rombouts/pdnsd.html
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -31,9 +29,6 @@ Requires:	rc-scripts
 Provides:	caching-nameserver
 Provides:	group(pdnsd)
 Provides:	user(pdnsd)
-Obsoletes:	bind
-Obsoletes:	maradns
-Obsoletes:	maradns-zoneserver
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -50,10 +45,9 @@ dialup).
 
 %prep
 %setup -q
-#%patch0 -p0
+%patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 rm -fr src/rc
