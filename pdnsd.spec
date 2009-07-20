@@ -3,7 +3,7 @@ Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl.UTF-8):	DNS proxy serwer dla małej sieci lub jednostki z połączeniem dialup
 Name:		pdnsd
 Version:	1.2.7
-Release:	2
+Release:	3
 License:	GPL
 Group:		Networking/Daemons
 Source0:	http://www.phys.uu.nl/~rombouts/pdnsd/releases/%{name}-%{version}-%{par}.tar.gz
@@ -29,9 +29,6 @@ Requires:	rc-scripts
 Provides:	caching-nameserver
 Provides:	group(pdnsd)
 Provides:	user(pdnsd)
-Obsoletes:	bind
-Obsoletes:	maradns
-Obsoletes:	maradns-zoneserver
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
