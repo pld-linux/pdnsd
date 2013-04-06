@@ -1,19 +1,19 @@
+# TODO: Readd deletion  src/rc and auto* stuff
 %define	par	par
 Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl.UTF-8):	DNS proxy serwer dla małej sieci lub jednostki z połączeniem dialup
 Name:		pdnsd
-Version:	1.2.8
+Version:	1.2.9a
 Release:	1
 License:	GPL
 Group:		Networking/Daemons
-Source0:	http://www.phys.uu.nl/~rombouts/pdnsd/releases/%{name}-%{version}-%{par}.tar.gz
-# Source0-md5:	779c5d19576e561fbf2455de435e5597
+Source0:	http://members.home.nl/p.a.rombouts/pdnsd/releases/%{name}-%{version}-%{par}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-ac_am.patch
 Patch1:		%{name}-query_roots_in_default_conf.patch
 Patch2:		%{name}-ipv6_pktinfo.patch
-URL:		http://www.phys.uu.nl/~rombouts/pdnsd.html
+URL:		http://members.home.nl/p.a.rombouts/pdnsd/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	flex
@@ -45,16 +45,16 @@ dialup).
 
 %prep
 %setup -q
-%patch0 -p1
+#%patch0 -p1
 #%patch1 -p1
 %patch2 -p1
 
 %build
-rm -fr src/rc
-%{__aclocal}
-%{__autoconf}
-%{__autoheader}
-%{__automake}
+# rm -fr src/rc
+# %{__aclocal}
+# %{__autoconf}
+# %{__autoheader}
+# %{__automake}
 %configure \
 	--with-default-id=pdnsd \
 	--enable-ipv6 \
