@@ -8,6 +8,7 @@ Release:	1
 License:	GPL
 Group:		Networking/Daemons
 Source0:	http://members.home.nl/p.a.rombouts/pdnsd/releases/%{name}-%{version}-%{par}.tar.gz
+# Source0-md5:	2f3e705d59a0f9308ad9504b24400769
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-ac_am.patch
