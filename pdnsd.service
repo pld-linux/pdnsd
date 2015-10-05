@@ -6,7 +6,7 @@ After=network.target
 ExecStart=/usr/sbin/pdnsd
 
 # Restarts on abnormal termination
-# Restart=on-abort
+Restart=on-abort
 
 # Config file
 # EnvironmentFile=/etc/sysconfig/pdnsd

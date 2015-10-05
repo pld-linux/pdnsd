@@ -4,13 +4,14 @@ Summary:	A caching dns proxy for small networks or dialin accounts
 Summary(pl.UTF-8):	DNS proxy serwer dla małej sieci lub jednostki z połączeniem dialup
 Name:		pdnsd
 Version:	1.2.9a
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Daemons
 Source0:	http://members.home.nl/p.a.rombouts/pdnsd/releases/%{name}-%{version}-%{par}.tar.gz
 # Source0-md5:	2f3e705d59a0f9308ad9504b24400769
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
+Source3:	%{name}.service
 Patch0:		%{name}-ac_am.patch
 Patch1:		%{name}-query_roots_in_default_conf.patch
 Patch2:		%{name}-ipv6_pktinfo.patch
@@ -76,7 +77,8 @@ install -d $RPM_BUILD_ROOT/etc/{rc.d/init.d,sysconfig}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/pdnsd
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/pdnsd
-
+install -d $RPM_BUILD_ROOT/%{systemdunitdir}
+install %{SOURCE3} $RPM_BUILD_ROOT%{systemdunitdir}/%{name}.service
 mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pdnsd.conf{.sample,}
 
 %clean
@@ -89,12 +91,14 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/chkconfig --add pdnsd
 %service pdnsd restart
+%systemd_post %{name}.service
 
 %preun
 if [ "$1" = "0" ]; then
 	%service pdnsd stop
 	/sbin/chkconfig --del pdnsd
 fi
+%systemd_preun %{name}.service
 
 %postun
 if [ "$1" = "0" ]; then
@@ -102,10 +106,13 @@ if [ "$1" = "0" ]; then
 	%groupremove pdnsd
 fi
 
+%systemd_trigger %{name}.service
+
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO doc/txt/*.txt doc/html/*.html
 %attr(754,root,root) /etc/rc.d/init.d/pdnsd
+%{systemdunitdir}/%{name}.service
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/pdnsd
 %attr(755,root,root) %{_sbindir}/pdnsd
 %attr(755,root,root) %{_sbindir}/pdnsd-ctl
