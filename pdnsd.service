@@ -1,0 +1,15 @@
+[Unit]
+Description=DNS caching server.
+After=network.target
+
+[Service]
+ExecStart=/usr/sbin/pdnsd
+
+# Restarts on abnormal termination
+# Restart=on-abort
+
+# Config file
+# EnvironmentFile=/etc/sysconfig/pdnsd
+
+[Install]
+WantedBy=multi-user.target
